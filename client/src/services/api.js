@@ -1,6 +1,6 @@
 // ================= API SERVICE =================
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
 /* ================= HELPERS ================= */
 
@@ -32,7 +32,7 @@ const authFetch = async (endpoint, options = {}) => {
 
 export const authAPI = {
   async register({ name, email, password, role, employeeId }) {
-    const data = await authFetch("/auth/register", {
+    const data = await authFetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify({ name, email, password, role, employeeId }),
     });
@@ -45,7 +45,7 @@ export const authAPI = {
   },
 
   async login({ email, password }) {
-    const data = await authFetch("/auth/login", {
+    const data = await authFetch("/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
@@ -62,7 +62,7 @@ export const authAPI = {
   },
 
   async inviteUser({ email, role }) {
-    return authFetch("/auth/invite", {
+    return authFetch("/api/auth/invite", {
       method: "POST",
       body: JSON.stringify({ email, role }),
     });
@@ -78,7 +78,7 @@ export const authAPI = {
   },
 
   async updateProfile(updates) {
-    const data = await authFetch("/auth/profile", {
+    const data = await authFetch("/api/auth/profile", {
       method: "PATCH",
       body: JSON.stringify(updates),
     });
@@ -92,51 +92,51 @@ export const authAPI = {
 
 export const taskAPI = {
   async getAll() {
-    return authFetch("/tasks");
+    return authFetch("/api/tasks");
   },
 
   async create(task) {
-    return authFetch("/tasks", {
+    return authFetch("/api/tasks", {
       method: "POST",
       body: JSON.stringify(task),
     });
   },
 
   async toggleComplete(id) {
-    return authFetch(`/tasks/${id}/toggle`, {
+    return authFetch(`/api/tasks/${id}/toggle`, {
       method: "PATCH",
     });
   },
 
   async delete(id) {
-    return authFetch(`/tasks/${id}`, {
+    return authFetch(`/api/tasks/${id}`, {
       method: "DELETE",
     });
   },
 
   async bulkComplete(ids) {
-    return authFetch("/tasks/bulk/complete", {
+    return authFetch("/api/tasks/bulk/complete", {
       method: "PATCH",
       body: JSON.stringify({ ids }),
     });
   },
 
   async bulkDelete(ids) {
-    return authFetch("/tasks/bulk", {
+    return authFetch("/api/tasks/bulk", {
       method: "DELETE",
       body: JSON.stringify({ ids }),
     });
   },
 
   async addComment(taskId, comment) {
-    return authFetch(`/tasks/${taskId}/comments`, {
+    return authFetch(`/api/tasks/${taskId}/comments`, {
       method: "POST",
       body: JSON.stringify(comment),
     });
   },
 
   async deleteComment(taskId, commentId) {
-    return authFetch(`/tasks/${taskId}/comments/${commentId}`, {
+    return authFetch(`/api/tasks/${taskId}/comments/${commentId}`, {
       method: "DELETE",
     });
   },
