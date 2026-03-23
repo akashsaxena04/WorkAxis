@@ -34,7 +34,7 @@ app.use(cors(
   {
     origin: [
       "http://localhost:5173",
-      "https://workaxis-frontend-k7p6.onrender.com"
+      /vercel\.app$/
     ],
     credentials: true
   }
