@@ -3,8 +3,11 @@ import { Bell, X, CheckCircle2, AlertTriangle, ClipboardList } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getTaskStatus } from "@/types/task";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/store/authSlice";
 
 export const NotificationBell = ({ tasks }) => {
+  const user = useSelector(selectUser);
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [readIds, setReadIds] = useState(() => {
@@ -28,9 +31,9 @@ export const NotificationBell = ({ tasks }) => {
     tasks.forEach((task) => {
       const status = getTaskStatus(task);
 
-      // New task notification (created in last 1 hour)
+      // New task notification (Employee only)
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      if (new Date(task.createdAt) > oneHourAgo && !task.completed) {
+      if (user?.role === "employee" && new Date(task.createdAt) > oneHourAgo && !task.completed) {
         notifs.push({
           id: `new-${task.id}`,
           type: "new",
@@ -71,15 +74,15 @@ export const NotificationBell = ({ tasks }) => {
         });
       }
 
-      // Completed
-      if (task.completed) {
+      // Completed (Employer only)
+      if (user?.role === "employer" && task.completed) {
         notifs.push({
           id: `done-${task.id}`,
           type: "completed",
           icon: CheckCircle2,
           title: "Task Completed",
           message: `"${task.title}" has been marked complete`,
-          time: new Date(task.createdAt),
+          time: new Date(task.createdAt), // Ideally use task.updatedAt if tracked
           className: "text-success bg-success/10",
         });
       }
@@ -114,9 +117,9 @@ export const NotificationBell = ({ tasks }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="relative"
       >
-        <Bell className="h-5 w-5" />
+        <Bell className="h-5 w-5 hover:scale-110 transition-transform duration-300" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center font-bold animate-pulse">
+          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center font-bold animate-pulse-glow shadow-lg shadow-destructive/50 ring-2 ring-background">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -124,10 +127,10 @@ export const NotificationBell = ({ tasks }) => {
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 top-12 z-50 w-80 md:w-96 bg-card border rounded-xl shadow-2xl animate-fade-in max-h-[70vh] flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="font-semibold text-foreground">Notifications</h3>
+          <div className="fixed inset-0 z-40 backdrop-blur-[2px] bg-background/20 transition-all duration-300" onClick={() => setIsOpen(false)} />
+          <div className="absolute right-0 top-12 z-50 w-80 md:w-96 glass shadow-2xl shadow-primary/10 rounded-2xl animate-slide-up max-h-[70vh] flex flex-col overflow-hidden border border-white/50 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
+            <div className="flex items-center justify-between p-4 border-b bg-muted/30">
+              <h3 className="font-semibold text-foreground text-gradient">Notifications</h3>
               {unreadCount > 0 && (
                 <Button variant="ghost" size="sm" onClick={markAllRead} className="text-xs text-primary">
                   Mark all read

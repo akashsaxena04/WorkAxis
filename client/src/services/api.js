@@ -102,6 +102,13 @@ export const taskAPI = {
     });
   },
 
+  async update(id, updates) {
+    return authFetch(`/api/tasks/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(updates),
+    });
+  },
+
   async toggleComplete(id) {
     return authFetch(`/api/tasks/${id}/toggle`, {
       method: "PATCH",

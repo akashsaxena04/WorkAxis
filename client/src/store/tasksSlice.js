@@ -37,6 +37,17 @@ export const toggleTask = createAsyncThunk(
   }
 );
 
+export const updateTask = createAsyncThunk(
+  "tasks/update",
+  async ({ id, updates }, { rejectWithValue }) => {
+    try {
+      return await taskAPI.update(id, updates);
+    } catch (err) {
+      return rejectWithValue({ id, message: err.message });
+    }
+  }
+);
+
 export const deleteTask = createAsyncThunk(
   "tasks/delete",
   async (id, { rejectWithValue }) => {
@@ -159,6 +170,13 @@ const tasksSlice = createSlice({
       // Roll back optimistic toggle
       const task = state.items.find((t) => t.id === action.payload?.id);
       if (task) task.completed = !task.completed;
+    });
+
+    // General update logic
+    builder.addCase(updateTask.fulfilled, (state, action) => {
+      const updatedTask = { ...action.payload, id: action.payload._id || action.payload.id };
+      const idx = state.items.findIndex((t) => t.id === updatedTask.id);
+      if (idx !== -1) state.items[idx] = updatedTask;
     });
 
     // Bulk complete

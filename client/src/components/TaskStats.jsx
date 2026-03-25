@@ -61,7 +61,7 @@ export const TaskStats = ({ tasks }) => {
       {stats.map((item) => (
         <div
           key={item.label}
-          className={`relative overflow-hidden group rounded-2xl p-6 glass-card border flex flex-col items-center justify-center gap-4 transition-all duration-300 ${item.border} ${item.shadow}`}
+          className={`relative overflow-hidden group rounded-3xl p-6 glass-card border flex flex-col items-center justify-center gap-4 transition-all duration-500 ${item.border} ${item.shadow}`}
         >
           {/* Subtle gradient background */}
           <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-50 dark:opacity-20 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
@@ -71,7 +71,7 @@ export const TaskStats = ({ tasks }) => {
           </div>
 
           <div className="text-center relative z-10 space-y-1">
-            <p className="text-4xl font-black text-foreground tracking-tight drop-shadow-sm">
+            <p className="text-4xl font-black tracking-tight drop-shadow-md bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/60">
               {item.value}
             </p>
             <p className={`text-xs font-bold uppercase tracking-[0.2em] ${item.color} opacity-80 group-hover:opacity-100 transition-opacity`}>

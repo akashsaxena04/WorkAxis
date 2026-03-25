@@ -22,10 +22,14 @@ const features = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden font-sans">
+      
+      {/* Background Glows */}
+      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] pointer-events-none animate-float" />
+      <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
 
       {/* NAV */}
-      <header className="border-b bg-white dark:bg-gray-800 dark:border-gray-700 sticky top-0">
+      <header className="fixed w-full z-50 transition-all duration-300 backdrop-blur-3xl bg-background/50 border-b border-border/40">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3 font-bold text-xl">
             <ClipboardList />
@@ -44,7 +48,7 @@ export default function Landing() {
 
             <Link
               to="/register"
-              className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+              className="px-5 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-700 shadow-lg shadow-purple-600/30 transition-all"
             >
               Get Started
             </Link>
@@ -53,30 +57,27 @@ export default function Landing() {
       </header>
 
       {/* HERO */}
-      <section className="px-4 py-28 text-center">
-        <div className="max-w-3xl mx-auto">
-          <p className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-4 py-1 rounded-full mb-6">
-            <CheckCircle2 size={16} />
-            Task management made simple
-          </p>
+      <section className="relative px-4 pt-40 pb-32 text-center animate-slide-up">
+        <div className="max-w-4xl mx-auto flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary dark:text-primary-foreground/90 px-5 py-2 rounded-full mb-8 backdrop-blur-sm shadow-xl shadow-primary/10 hover:scale-105 transition-transform duration-300">
+            <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+            <span className="text-sm font-semibold tracking-wide uppercase">Task management reimagined</span>
+          </div>
 
-          <h1 className="text-5xl font-bold leading-tight mb-6">
+          <h1 className="text-6xl md:text-8xl font-black leading-[1.1] mb-8 tracking-tighter">
             Organize. Assign.
             <br />
-            <span className="text-blue-600">Get Things Done.</span>
+            <span className="text-gradient">Get Things Done.</span>
           </h1>
 
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-10">
-            A powerful task management platform for teams with smart deadlines
-            and role-based visibility.
+          <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl font-medium leading-relaxed">
+            Experience the next generation of productivity. A meticulously crafted task management 
+            platform designed for teams pushing the boundaries of what's possible.
           </p>
 
-          <div className="flex justify-center gap-4">
-            <Link className="px-8 py-3 bg-blue-600 text-white rounded-xl">
-              Create Free Account
-            </Link>
-            <Link className="px-8 py-3 border rounded-xl dark:border-gray-600">
-              Sign In
+          <div className="flex flex-col justify-center gap-5 w-full max-w-sm mx-auto">
+            <Link to="/login" className="w-full py-4 bg-purple-600 text-white rounded-2xl font-bold hover:scale-105 hover:bg-purple-700 transition-all duration-300 shadow-xl shadow-purple-600/30 flex items-center justify-center gap-2 text-lg">
+              Sign In <ArrowRight size={20} />
             </Link>
           </div>
         </div>
@@ -88,15 +89,16 @@ export default function Landing() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-md"
+              className="glass p-8 rounded-[2rem] hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group relative overflow-hidden ring-1 ring-border/50"
             >
-              <div className="mb-4 text-blue-600">
-                <f.icon />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-inner">
+                <f.icon strokeWidth={2.5} />
               </div>
-              <h3 className="font-semibold text-lg mb-2">
+              <h3 className="font-bold text-xl mb-3 text-foreground tracking-tight">
                 {f.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <p className="text-muted-foreground font-medium leading-relaxed">
                 {f.description}
               </p>
             </div>
@@ -105,32 +107,40 @@ export default function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-blue-600 rounded-3xl p-10 md:p-16 text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to streamline your workflow?
+      <section className="px-4 py-32 mt-10">
+        <div className="max-w-5xl mx-auto relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-indigo-600 rounded-[3rem] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-700" />
+          <div className="relative bg-gradient-to-br from-primary via-purple-700 to-indigo-900 rounded-[3rem] p-12 md:p-24 text-center overflow-hidden border border-white/20 shadow-2xl">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mx-20 -my-20" />
+            
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white drop-shadow-lg">
+              Ready to elevate your workflow?
             </h2>
 
-            <p className="text-lg max-w-xl mx-auto mb-8 text-blue-100">
-              Join now and start assigning tasks to your team in minutes.
+            <p className="text-xl max-w-2xl mx-auto mb-12 text-primary-foreground/80 font-medium">
+              Join thousands of forward-thinking teams already using WorkAxis to orchestrate their success.
             </p>
 
             <Link
               to="/register"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-gray-100"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-primary rounded-2xl font-black text-lg hover:scale-105 hover:bg-gray-50 transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] w-full sm:w-auto"
             >
-              Get Started — It's Free
-              <ArrowRight size={18} />
+              Get Started for Free
+              <ArrowRight strokeWidth={3} className="h-5 w-5" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t bg-white dark:bg-gray-800 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
-          WorkAxis • {new Date().getFullYear()} • Built for productivity
+      <footer className="border-t border-border/40 backdrop-blur-xl bg-background/50">
+        <div className="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2 font-bold text-xl tracking-tight text-gradient">
+            <ClipboardList className="text-primary" /> WorkAxis
+          </div>
+          <div className="text-sm font-medium text-muted-foreground/60 tracking-wider uppercase">
+            Built for the modern web • {new Date().getFullYear()}
+          </div>
         </div>
       </footer>
 

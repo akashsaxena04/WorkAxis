@@ -17,6 +17,9 @@ export const TaskForm = ({ onAddTask }) => {
   const [assignType, setAssignType] = useState("company");
   const [assigneeEmail, setAssigneeEmail] = useState("");
   const [priority, setPriority] = useState("medium");
+  const [subtasks, setSubtasks] = useState([]);
+  const [subtaskInput, setSubtaskInput] = useState("");
+  const [recurring, setRecurring] = useState("none");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,10 +45,13 @@ export const TaskForm = ({ onAddTask }) => {
       assignType,
       assigneeEmail: assignType === "employee" ? assigneeEmail.trim().toLowerCase() : null,
       priority,
+      subtasks: subtasks.map((st) => ({ title: st, completed: false })),
+      recurring: { frequency: recurring },
     });
 
     setTitle(""); setDescription(""); setDeadline("");
     setAssignType("company"); setAssigneeEmail(""); setPriority("medium");
+    setSubtasks([]); setSubtaskInput(""); setRecurring("none");
     setIsOpen(false);
     toast.success(
       assignType === "company"
@@ -67,47 +73,86 @@ export const TaskForm = ({ onAddTask }) => {
   }
 
   return (
-    <Card className="p-7 animate-fade-in glass-card border-primary/30">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-foreground">Create New Task</h3>
-        <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground">
-          <X className="h-4 w-4" />
+    <Card className="p-8 animate-fade-in glass-card border-white/20 dark:border-white/10 shadow-2xl relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+      <div className="relative flex items-center justify-between mb-8 pb-4 border-b border-border/50">
+        <h3 className="text-2xl font-black text-foreground tracking-tight drop-shadow-sm">Create New Task</h3>
+        <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground rounded-full hover:bg-muted/50 transition-colors">
+          <X className="h-5 w-5" />
         </Button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="title" className="text-sm font-medium">
+        <div className="space-y-3">
+          <Label htmlFor="title" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
             Task Title <span className="text-destructive">*</span>
           </Label>
           <Input
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter task title..."
-            className="h-11"
+            placeholder="What needs to be done?"
+            className="h-14 bg-background/50 backdrop-blur-md border-border/50 focus-visible:ring-primary/50 text-lg font-medium shadow-inner rounded-xl px-4"
             autoFocus
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="description" className="text-sm font-medium">Description</Label>
+        <div className="space-y-3">
+          <Label htmlFor="description" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Description</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Add a description (optional)..."
-            rows={3}
-            className="resize-none"
+            placeholder="Add context or detailed instructions..."
+            rows={2}
+            className="resize-none bg-background/50 backdrop-blur-md border-border/50 focus-visible:ring-primary/50 text-base shadow-inner rounded-xl p-4"
           />
         </div>
 
+        {/* Subtasks */}
+        <div className="space-y-3">
+          <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Subtasks</Label>
+          <div className="flex gap-2">
+            <Input
+              value={subtaskInput}
+              onChange={(e) => setSubtaskInput(e.target.value)}
+              placeholder="Add a subtask..."
+              className="h-10 bg-background/50 flex-1"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  if (subtaskInput.trim()) {
+                    setSubtasks([...subtasks, subtaskInput.trim()]);
+                    setSubtaskInput("");
+                  }
+                }
+              }}
+            />
+            <Button type="button" variant="secondary" onClick={() => {
+              if (subtaskInput.trim()) {
+                setSubtasks([...subtasks, subtaskInput.trim()]);
+                setSubtaskInput("");
+              }
+            }}>Add</Button>
+          </div>
+          {subtasks.length > 0 && (
+            <ul className="text-xs space-y-1">
+              {subtasks.map((st, i) => (
+                <li key={i} className="flex justify-between items-center bg-muted/40 p-2 rounded-lg">
+                  <span>• {st}</span>
+                  <button type="button" onClick={() => setSubtasks(subtasks.filter((_, idx) => idx !== i))} className="text-destructive hover:font-bold">X</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
         {/* Priority */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium flex items-center gap-1.5">
-            <Flag className="h-3.5 w-3.5" /> Priority <span className="text-destructive">*</span>
+        <div className="space-y-3">
+          <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+            <Flag className="h-3.5 w-3.5" strokeWidth={3} /> Priority <span className="text-destructive">*</span>
           </Label>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-3">
             {PRIORITIES.map((p) => {
               const cfg = priorityConfig[p];
               return (
@@ -116,11 +161,11 @@ export const TaskForm = ({ onAddTask }) => {
                   type="button"
                   onClick={() => setPriority(p)}
                   className={cn(
-                    "h-9 rounded-lg text-xs font-semibold border transition-all",
+                    "h-12 rounded-xl text-xs font-black uppercase tracking-wider border transition-all duration-300",
                     `${cfg.bg} ${cfg.color} ${cfg.border}`,
                     priority === p
-                      ? "shadow-md ring-1 ring-current scale-[1.02]"
-                      : "opacity-60 hover:opacity-100 saturate-50 hover:saturate-100"
+                      ? "shadow-[0_4px_20px_-5px_rgba(0,0,0,0.3)] ring-2 ring-current scale-[1.05]"
+                      : "opacity-50 hover:opacity-100 hover:scale-[1.02] saturate-50 hover:saturate-100"
                   )}
                 >
                   {cfg.label}
@@ -173,18 +218,30 @@ export const TaskForm = ({ onAddTask }) => {
           </div>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="deadline" className="text-sm font-medium">
-            Deadline <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="deadline"
-            type="datetime-local"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            className="h-11"
-            min={new Date().toISOString().slice(0, 16)}
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="deadline" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Deadline <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="deadline"
+              type="datetime-local"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              className="h-11"
+              min={new Date().toISOString().slice(0, 16)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Repeat</Label>
+            <select value={recurring} onChange={(e) => setRecurring(e.target.value)} className="w-full h-11 rounded-lg border border-border/50 bg-background/50 backdrop-blur-md text-sm px-3">
+              <option value="none">None</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
         </div>
 
         <div className="flex gap-3 pt-2">

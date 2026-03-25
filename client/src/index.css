@@ -82,10 +82,13 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/30 dark:border-white/10 shadow-lg;
+    @apply bg-white/70 dark:bg-black/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 shadow-xl;
   }
   .glass-card {
-    @apply glass hover:-translate-y-1 hover:shadow-2xl hover:border-primary/30 transition-all duration-300 rounded-2xl;
+    @apply glass hover:-translate-y-1.5 hover:shadow-2xl hover:border-primary/40 transition-all duration-500 rounded-3xl relative overflow-hidden;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 dark:to-purple-400;
   }
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out forwards;
@@ -96,6 +99,15 @@
   .animate-pulse-glow {
     animation: pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
 @keyframes fadeIn {

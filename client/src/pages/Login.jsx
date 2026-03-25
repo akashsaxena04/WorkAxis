@@ -49,7 +49,7 @@ const Login = () => {
 
         {/* Logo */}
         <div className="flex items-center gap-3 justify-center mb-8">
-          <div className="p-2 rounded-xl bg-blue-600 text-white">
+          <div className="p-2 rounded-xl bg-purple-600 text-white shadow-lg shadow-purple-600/20">
             <ClipboardList className="h-6 w-6" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -73,7 +73,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className="w-full h-11 px-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-11 px-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -86,14 +86,14 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full h-11 px-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-11 px-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-11 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+            className="w-full h-11 flex items-center justify-center gap-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition shadow-lg shadow-purple-600/20"
           >
             <LogIn size={18} />
             {loading ? "Signing in..." : "Sign In"}
@@ -105,7 +105,7 @@ const Login = () => {
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-purple-600 hover:text-purple-700 hover:underline font-bold"
           >
             Register here
           </Link>

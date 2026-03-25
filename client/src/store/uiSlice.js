@@ -7,6 +7,7 @@ const uiSlice = createSlice({
   initialState: {
     darkMode: saved === "dark",
     filter: "pending",
+    currentView: "list",
     bulkMode: false,
     selectedIds: [],
     inactivitySeconds: null,
@@ -20,6 +21,9 @@ const uiSlice = createSlice({
     },
     setFilter(state, action) {
       state.filter = action.payload;
+    },
+    setView(state, action) {
+      state.currentView = action.payload;
     },
     setBulkMode(state, action) {
       state.bulkMode = action.payload;
@@ -46,6 +50,7 @@ const uiSlice = createSlice({
 export const {
   toggleDarkMode,
   setFilter,
+  setView,
   setBulkMode,
   toggleSelectId,
   clearSelection,
@@ -55,6 +60,7 @@ export const {
 // Selectors
 export const selectDarkMode = (state) => state.ui.darkMode;
 export const selectFilter = (state) => state.ui.filter;
+export const selectCurrentView = (state) => state.ui.currentView;
 export const selectBulkMode = (state) => state.ui.bulkMode;
 export const selectSelectedIds = (state) => state.ui.selectedIds;
 export const selectInactivitySeconds = (state) => state.ui.inactivitySeconds;

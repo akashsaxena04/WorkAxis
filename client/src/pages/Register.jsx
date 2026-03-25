@@ -71,7 +71,7 @@ const Register = () => {
 
         {/* LOGO */}
         <div className="flex items-center gap-3 justify-center mb-8">
-          <div className="p-2 rounded-xl bg-blue-600 text-white">
+          <div className="p-2 rounded-xl bg-purple-600 shadow-lg shadow-purple-600/20 text-white">
             <ClipboardList className="h-6 w-6" />
           </div>
           <h1 className="text-2xl font-bold">WorkAxis</h1>
@@ -95,7 +95,7 @@ const Register = () => {
               className="w-full h-11 px-3 border rounded-lg
                          bg-white text-black border-gray-300
                          dark:bg-gray-700 dark:text-white dark:border-gray-600
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -110,7 +110,7 @@ const Register = () => {
               readOnly={!!searchParams.get("email")}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className={`w-full h-11 px-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
+              className={`w-full h-11 px-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500
                          ${searchParams.get("email") ? "bg-gray-100 text-gray-500 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400" : "bg-white text-black dark:bg-gray-700 dark:text-white"}
                          border-gray-300 dark:border-gray-600`}
             />
@@ -127,8 +127,8 @@ const Register = () => {
                 type="button"
                 onClick={() => setRole("employee")}
                 className={`flex-1 h-11 rounded-lg font-medium transition border ${role === "employee"
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "bg-blue-100 text-black border-blue-200 dark:bg-blue-700 dark:text-white dark:border-blue-500"
+                    ? "bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20"
+                    : "bg-purple-50 text-black border-purple-200 dark:bg-purple-900/40 dark:text-white dark:border-purple-800"
                   }`}
               >
                 Employee
@@ -138,8 +138,8 @@ const Register = () => {
                 type="button"
                 onClick={() => setRole("employer")}
                 className={`flex-1 h-11 rounded-lg font-medium transition border ${role === "employer"
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "bg-blue-100 text-black border-blue-200 dark:bg-blue-700 dark:text-white dark:border-blue-500"
+                    ? "bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20"
+                    : "bg-purple-50 text-black border-purple-200 dark:bg-purple-900/40 dark:text-white dark:border-purple-800"
                   }`}
               >
                 Employer
@@ -159,7 +159,7 @@ const Register = () => {
               className="w-full h-11 px-3 border rounded-lg
                          bg-white text-black border-gray-300
                          dark:bg-gray-700 dark:text-white dark:border-gray-600
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -176,7 +176,7 @@ const Register = () => {
               className="w-full h-11 px-3 border rounded-lg
                          bg-white text-black border-gray-300
                          dark:bg-gray-700 dark:text-white dark:border-gray-600
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -184,8 +184,8 @@ const Register = () => {
           <button
             disabled={loading}
             className="w-full h-11 flex items-center justify-center gap-2
-                       bg-blue-600 text-white rounded-lg font-medium
-                       hover:bg-blue-700 transition"
+                       bg-purple-600 text-white rounded-lg font-medium
+                       hover:bg-purple-700 transition shadow-lg shadow-purple-600/20"
           >
             <UserPlus size={18} />
             {loading ? "Creating..." : "Register"}
@@ -195,7 +195,7 @@ const Register = () => {
 
         <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline font-medium">
+          <Link to="/login" className="text-purple-600 hover:text-purple-700 hover:underline font-bold">
             Sign in
           </Link>
         </p>

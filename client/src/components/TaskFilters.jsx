@@ -14,11 +14,13 @@ export const TaskFilters = ({ activeFilter, onFilterChange }) => {
         <Button
           key={filter.value}
           variant={activeFilter === filter.value ? "default" : "outline"}
-          size="sm"
+          size="default"
           onClick={() => onFilterChange(filter.value)}
           className={cn(
-            "transition-all",
-            activeFilter === filter.value ? "shadow-md" : "hover:bg-secondary"
+            "transition-all duration-500 rounded-full font-medium tracking-wide",
+            activeFilter === filter.value 
+              ? "shadow-lg shadow-primary/30 scale-105" 
+              : "hover:bg-secondary hover:scale-105 glass border-transparent opacity-80 hover:opacity-100"
           )}
         >
           {filter.label}

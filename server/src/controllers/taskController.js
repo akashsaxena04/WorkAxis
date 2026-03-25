@@ -24,3 +24,13 @@ export const deleteTask = async (req, res) => {
   req.app.get("io").emit("tasks_changed");
   res.json({ message: "Deleted" });
 };
+
+export const updateTask = async (req, res) => {
+  try {
+    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    req.app.get("io").emit("tasks_changed");
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
